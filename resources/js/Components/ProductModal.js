@@ -76,14 +76,17 @@ export default function ProductModal({
         e.preventDefault();
 
         if (isUpdate) {
-            put(route("product.update", data.id));
-            setIsOpen(!isOpen);
+            put(route("product.update", data.id), {
+                onSuccess: setIsOpen(!isOpen),
+            });
         } else if (isDelete) {
-            destroy(route("product.destroy", data.id));
-            setIsOpen(!isOpen);
+            destroy(route("product.destroy", data.id), {
+                onSuccess: setIsOpen(!isOpen),
+            });
         } else {
-            post(route("product.store"));
-            setIsOpen(!isOpen);
+            post(route("product.store"), {
+                onSuccess: setIsOpen(!isOpen),
+            });
         }
     };
 
@@ -140,7 +143,7 @@ export default function ProductModal({
                                             Barcode
                                         </label>
                                         <div className="col-span-2">
-                                            <FormInput
+                                            {/* <FormInput
                                                 type="text"
                                                 patern="[0-9]*"
                                                 name="barcode"
@@ -148,6 +151,16 @@ export default function ProductModal({
                                                 isFocused={true}
                                                 handleChange={onHandleChange}
                                                 placeholder="Barcode Produk"
+                                            /> */}
+                                            <input
+                                                type="text"
+                                                pattern="[0-9]*"
+                                                name="barcode"
+                                                value={data.barcode}
+                                                onChange={onHandleChange}
+                                                placeholder="Barcode Produk"
+                                                required={true}
+                                                className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none w-full border border-gray-300 focus:border-green-600 focus:ring focus:ring-green-200"
                                             />
                                         </div>
                                     </div>
@@ -159,12 +172,22 @@ export default function ProductModal({
                                             Nama
                                         </label>
                                         <div className="col-span-2">
-                                            <FormInput
+                                            {/* <FormInput
                                                 type="text"
                                                 name="nama"
                                                 value={data.nama}
                                                 handleChange={onHandleChange}
                                                 placeholder="Nama Produk"
+                                            /> */}
+                                            <input
+                                                type="text"
+                                                pattern="[0-9]*"
+                                                name="nama"
+                                                value={data.nama}
+                                                onChange={onHandleChange}
+                                                placeholder="Nama Produk"
+                                                required={true}
+                                                className="px-3 py-3 placeholder-slate-300 text-slate-600 relative bg-white rounded text-sm shadow outline-none focus:outline-none w-full border border-gray-300 focus:border-green-600 focus:ring focus:ring-green-200"
                                             />
                                         </div>
                                     </div>
