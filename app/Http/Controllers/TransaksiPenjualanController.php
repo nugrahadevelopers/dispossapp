@@ -14,42 +14,47 @@ class TransaksiPenjualanController extends Controller
     public function index()
     {
         $penjualan_id = session('penjualan_id');
-        $penjualan = Penjualan::findOrFail($penjualan_id);
-        $products = Product::all();
-        $transaksi_penjualan = TransaksiPenjualan::with('product')->where('penjualan_id', $penjualan_id)->get();
 
-        $dataTransaksiPenjualan = array();
-        $total = 0;
-        $total_item = 0;
+        if ($penjualan_id) {
+            $penjualan = Penjualan::findOrFail($penjualan_id);
+            $products = Product::all();
+            $transaksi_penjualan = TransaksiPenjualan::with('product')->where('penjualan_id', $penjualan_id)->get();
 
-        foreach ($transaksi_penjualan as $key => $item) {
-            $row = array();
-            $row['no'] = $key + 1;
-            $row['penjualan_id'] = $item->penjualan_id;
-            $row['id'] = $item->id;
-            $row['barcode'] = $item->product->barcode;
-            $row['nama'] = $item->product->nama;
-            $row['harga_jual'] = $item->harga_jual;
-            $row['jumlah'] = $item->jumlah;
-            $row['diskon'] = $item->diskon;
-            $row['subtotal'] = $item->subtotal;
-            $dataTransaksiPenjualan[] = $row;
+            $dataTransaksiPenjualan = array();
+            $total = 0;
+            $total_item = 0;
 
-            $total += $item->harga_jual * $item->jumlah - (($item->diskon * $item->jumlah) / 100 * $item->harga_jual);
-            $total_item += $item->jumlah;
+            foreach ($transaksi_penjualan as $key => $item) {
+                $row = array();
+                $row['no'] = $key + 1;
+                $row['penjualan_id'] = $item->penjualan_id;
+                $row['id'] = $item->id;
+                $row['barcode'] = $item->product->barcode;
+                $row['nama'] = $item->product->nama;
+                $row['harga_jual'] = $item->harga_jual;
+                $row['jumlah'] = $item->jumlah;
+                $row['diskon'] = $item->diskon;
+                $row['subtotal'] = $item->subtotal;
+                $dataTransaksiPenjualan[] = $row;
+
+                $total += $item->harga_jual * $item->jumlah - (($item->diskon * $item->jumlah) / 100 * $item->harga_jual);
+                $total_item += $item->jumlah;
+            }
+
+            $dataTotal = array();
+            $dataTotal['total'] = $total;
+            $dataTotal['terbilang'] = ucwords(terbilang($total) . ' Rupiah');
+            $dataTotal['total_item'] = $total_item;
+
+            return Inertia::render('Dashboard/Transaction/TransaksiBaru', [
+                'penjualan' => $penjualan,
+                'products' => $products,
+                'dataTransaksiPenjualan' => $dataTransaksiPenjualan,
+                'dataTotal' => $dataTotal
+            ]);
+        } else {
+            return redirect()->route('penjualan.create');
         }
-
-        $dataTotal = array();
-        $dataTotal['total'] = $total;
-        $dataTotal['terbilang'] = ucwords(terbilang($total) . ' Rupiah');
-        $dataTotal['total_item'] = $total_item;
-
-        return Inertia::render('Dashboard/Transaction/TransaksiBaru', [
-            'penjualan' => $penjualan,
-            'products' => $products,
-            'dataTransaksiPenjualan' => $dataTransaksiPenjualan,
-            'dataTotal' => $dataTotal
-        ]);
     }
 
     public function store(Request $request)

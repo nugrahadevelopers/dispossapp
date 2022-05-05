@@ -111,9 +111,22 @@ export default function Pengeluaran(props) {
 
     const columns = [
         {
-            name: "Id",
-            selector: (row) => row.id,
+            name: "No",
+            selector: (row) => row.no,
             sortable: true,
+            width: "65px",
+        },
+        {
+            name: "Dibuat",
+            selector: (row) => row.created_at,
+            sortable: true,
+            width: "100px",
+        },
+        {
+            name: "Diubah",
+            selector: (row) => row.updated_at,
+            sortable: true,
+            width: "100px",
         },
         {
             name: "Nomor Transaksi",
@@ -145,14 +158,7 @@ export default function Pengeluaran(props) {
         },
     ];
 
-    const dataOnTable = props.pengeluaran.map((item) => {
-        return {
-            id: item.id,
-            nomor_trx_pengeluaran: item.nomor_trx_pengeluaran,
-            deskripsi: item.deskripsi,
-            nominal: item.nominal,
-        };
-    });
+    const dataOnTable = props.pengeluaran;
 
     const filteredItems = dataOnTable.filter(
         (item) =>

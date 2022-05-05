@@ -213,6 +213,7 @@ export default function Penjualan(props) {
                             closeModal={closeModalDelete}
                             dataEdit={dataDelete}
                             routeURL="penjualan.destroy"
+                            penjualan={true}
                         />
                     </div>
                 </div>

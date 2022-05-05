@@ -129,7 +129,15 @@ export default function TransaksiBaru(props) {
 
     const submitData = (e) => {
         e.preventDefault();
-        post(route("transaksi_penjualan.store"));
+        // post(route("transaksi_penjualan.store"));
+
+        Inertia.visit(route("transaksi_penjualan.store"), {
+            method: "post",
+            data: {
+                penjualan_id: props.penjualan.id,
+                barcode: data.barcode,
+            },
+        });
     };
 
     const simpanPenjualan = (e) => {

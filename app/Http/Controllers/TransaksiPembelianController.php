@@ -25,6 +25,7 @@ class TransaksiPembelianController extends Controller
         }
 
         $dataTransaksiPembelian = array();
+        $dataProduct = $this->getDataProduct($products);
         $total = 0;
         $total_item = 0;
 
@@ -51,11 +52,34 @@ class TransaksiPembelianController extends Controller
 
         return Inertia::render('Dashboard/Transaction/CreatePembelian', [
             'pembelian' => $pembelian,
-            'products' => $products,
+            'products' => $dataProduct,
             'supplier' => $supplier,
             'dataTransaksiPembelian' => $dataTransaksiPembelian,
             'dataTotal' => $dataTotal
         ]);
+    }
+
+    public function getDataProduct($products)
+    {
+        $data = array();
+
+        foreach ($products as $key => $item) {
+            $row = array();
+            $row['no'] = $key + 1;
+            $row['id'] = $item->id;
+            $row['barcode'] = $item->barcode;
+            $row['nama'] = $item->nama;
+            $row['merk'] = $item->merk;
+            $row['harga_beli'] = $item->harga_beli;
+            $row['harga_jual'] = $item->harga_jual;
+            $row['diskon'] = $item->diskon;
+            $row['stock'] = $item->stock;
+            $row['satuan'] = $item->satuan;
+            $row['category_id'] = $item->category_id;
+            $data[] = $row;
+        }
+
+        return $data;
     }
 
     public function store(Request $request)

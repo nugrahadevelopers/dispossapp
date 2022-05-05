@@ -21,6 +21,19 @@ class PembelianController extends Controller
         $pembelian = Pembelian::with('supplier')->get();
         $suppliers = Supplier::all();
 
+        $pembelianSession = session('pembelian_id');
+        $dataPembelian = $this->getDataPembelian($pembelian);
+        $dataSupplier = $this->getDataSupplier($suppliers);
+
+        return Inertia::render('Dashboard/Transaction/Pembelian', [
+            'pembelian' => $dataPembelian,
+            'suppliers' => $dataSupplier,
+            'pembelianSession' => $pembelianSession
+        ]);
+    }
+
+    public function getDataPembelian($pembelian)
+    {
         $data = array();
 
         foreach ($pembelian as $key => $item) {
@@ -37,10 +50,24 @@ class PembelianController extends Controller
             $data[] = $row;
         }
 
-        return Inertia::render('Dashboard/Transaction/Pembelian', [
-            'pembelian' => $data,
-            'suppliers' => $suppliers,
-        ]);
+        return $data;
+    }
+
+    public function getDataSupplier($suppliers)
+    {
+        $data = array();
+
+        foreach ($suppliers as $key => $item) {
+            $row = array();
+            $row['no'] = $key + 1;
+            $row['id'] = $item->id;
+            $row['nama'] = $item->nama;
+            $row['telepon'] = $item->telepon;
+            $row['alamat'] = $item->alamat;
+            $data[] = $row;
+        }
+
+        return $data;
     }
 
     /**

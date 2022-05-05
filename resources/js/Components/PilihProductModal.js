@@ -3,69 +3,39 @@ import { useForm, usePage } from "@inertiajs/inertia-react";
 import { Dialog, Transition } from "@headlessui/react";
 
 import DataTable from "react-data-table-component";
-import styled from "styled-components";
-import FilterButton from "@/Components/FilterButton";
 import RowButton from "./RowButton";
-const TextField = styled.input`
-    height: 32px;
-
-    width: 200px;
-
-    border-radius: 3px;
-
-    border-top-left-radius: 5px;
-
-    border-bottom-left-radius: 5px;
-
-    border-top-right-radius: 0;
-
-    border-bottom-right-radius: 0;
-
-    border: 1px solid #e5e5e5;
-
-    padding: 0 32px 0 16px;
-
-    &:hover {
-        cursor: pointer;
-    }
-`;
-const ClearButton = styled(FilterButton)`
-    border-top-left-radius: 0;
-
-    border-bottom-left-radius: 0;
-
-    border-top-right-radius: 5px;
-
-    border-bottom-right-radius: 5px;
-
-    height: 34px;
-
-    width: 32px;
-
-    text-align: center;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-`;
 
 const FilterComponent = ({ filterText, onFilter, onClear }) => (
-    <>
-        <TextField
-            id="search"
-            type="text"
-            placeholder="Filter By Nama Supplier"
-            aria-label="Search Input"
-            value={filterText}
-            onChange={onFilter}
-        />
+    <div className="w-full flex items-center justify-between">
+        <div>
+            {/* <button
+                type="button"
+                onClick={openModal}
+                className="px-4 py-1 text-white text-sm bg-green-500 hover:bg-green-600 rounded-md"
+            >
+                Tambah
+            </button> */}
+        </div>
+        <div>
+            <input
+                id="search"
+                type="text"
+                placeholder="Cari Produk"
+                aria-label="Search Input"
+                value={filterText}
+                onChange={onFilter}
+                className="h-8 w-52 rounded-tl-md rounded-bl-md placeholder-slate-300 text-slate-600 relative bg-white text-sm shadow outline-none focus:outline-none border border-gray-300 focus:border-green-600 focus:ring focus:ring-green-200"
+            />
 
-        <ClearButton type="button" onClick={onClear}>
-            X
-        </ClearButton>
-    </>
+            <button
+                type="button"
+                onClick={onClear}
+                className="h-8 w-8 text-white text-sm bg-green-500 hover:bg-green-600 rounded-tr-md rounded-br-md"
+            >
+                X
+            </button>
+        </div>
+    </div>
 );
 
 export default function PilihProductModal({
@@ -88,9 +58,10 @@ export default function PilihProductModal({
 
     const columns = [
         {
-            name: "Id",
-            selector: (row) => row.id,
+            name: "No",
+            selector: (row) => row.no,
             sortable: true,
+            width: "65px",
         },
         {
             name: "Barcode",
@@ -120,14 +91,7 @@ export default function PilihProductModal({
         },
     ];
 
-    const data = products.map((item) => {
-        return {
-            id: item.id,
-            barcode: item.barcode,
-            nama: item.nama,
-            harga_beli: item.harga_beli,
-        };
-    });
+    const data = products;
 
     const filteredItems = data.filter(
         (item) =>

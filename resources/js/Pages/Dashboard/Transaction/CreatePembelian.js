@@ -66,7 +66,7 @@ export default function CreatePembelian(props) {
         {
             name: "No",
             selector: (row) => row.no,
-            width: "5%",
+            width: "65px",
         },
         {
             name: "Barcode",
@@ -112,7 +112,16 @@ export default function CreatePembelian(props) {
 
     const submitData = (e) => {
         e.preventDefault();
-        post(route("transaksi_pembelian.store"));
+
+        // post(route("transaksi_pembelian.store"));
+
+        Inertia.visit(route("transaksi_pembelian.store"), {
+            method: "post",
+            data: {
+                pembelian_id: props.pembelian.id,
+                barcode: data.barcode,
+            },
+        });
     };
 
     const simpanPembelian = (e) => {
@@ -174,7 +183,11 @@ export default function CreatePembelian(props) {
                                         <input
                                             type="hidden"
                                             name="pembelian_id"
-                                            value={data.pembelian_id}
+                                            value={
+                                                data.pembelian_id != ""
+                                                    ? data.pembelian_id
+                                                    : props.pembelian.id
+                                            }
                                         />
                                         <input
                                             type="text"

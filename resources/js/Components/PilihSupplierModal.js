@@ -81,9 +81,10 @@ export default function PilihSuplierModal({
 
     const columns = [
         {
-            name: "Id",
-            selector: (row) => row.id,
+            name: "No",
+            selector: (row) => row.no,
             sortable: true,
+            width: "65px",
         },
         {
             name: "Nama",
@@ -115,14 +116,7 @@ export default function PilihSuplierModal({
         },
     ];
 
-    const data = suppliers.map((item) => {
-        return {
-            id: item.id,
-            nama: item.nama,
-            telepon: item.telepon,
-            alamat: item.alamat,
-        };
-    });
+    const data = suppliers;
 
     const filteredItems = data.filter(
         (item) =>

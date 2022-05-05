@@ -3,71 +3,59 @@ import Authenticated from "@/Layouts/Authenticated";
 import { Head } from "@inertiajs/inertia-react";
 
 import DataTable from "react-data-table-component";
-import styled from "styled-components";
-import FilterButton from "@/Components/FilterButton";
 import CustomTableActionButton from "@/Components/CustomTableActionButton";
 import PilihSuplierModal from "@/Components/PilihSupplierModal";
 import DeleteModal from "@/Components/DeleteModal";
-const TextField = styled.input`
-    height: 32px;
+import { Inertia } from "@inertiajs/inertia";
 
-    width: 200px;
+const FilterComponent = ({
+    filterText,
+    onFilter,
+    onClear,
+    openModal,
+    openPembelianAktif,
+    session,
+}) => (
+    <div className="w-full flex items-center justify-between">
+        <div className="flex gap-3">
+            <button
+                type="button"
+                onClick={openModal}
+                className="px-4 py-1 text-white text-sm bg-green-500 hover:bg-green-600 rounded-md"
+            >
+                Tambah
+            </button>
 
-    border-radius: 3px;
+            <button
+                type="button"
+                onClick={openPembelianAktif}
+                className={`${
+                    session != null ? "flex" : "hidden"
+                } px-4 py-1 text-white text-sm bg-orange-400 hover:bg-orange-500 rounded-md`}
+            >
+                Pembelian Aktif
+            </button>
+        </div>
+        <div>
+            <input
+                id="search"
+                type="text"
+                placeholder="Cari Transaksi"
+                aria-label="Search Input"
+                value={filterText}
+                onChange={onFilter}
+                className="h-8 w-52 rounded-tl-md rounded-bl-md placeholder-slate-300 text-slate-600 relative bg-white text-sm shadow outline-none focus:outline-none border border-gray-300 focus:border-green-600 focus:ring focus:ring-green-200"
+            />
 
-    border-top-left-radius: 5px;
-
-    border-bottom-left-radius: 5px;
-
-    border-top-right-radius: 0;
-
-    border-bottom-right-radius: 0;
-
-    border: 1px solid #e5e5e5;
-
-    padding: 0 32px 0 16px;
-
-    &:hover {
-        cursor: pointer;
-    }
-`;
-const ClearButton = styled(FilterButton)`
-    border-top-left-radius: 0;
-
-    border-bottom-left-radius: 0;
-
-    border-top-right-radius: 5px;
-
-    border-bottom-right-radius: 5px;
-
-    height: 34px;
-
-    width: 32px;
-
-    text-align: center;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-`;
-
-const FilterComponent = ({ filterText, onFilter, onClear }) => (
-    <>
-        <TextField
-            id="search"
-            type="text"
-            placeholder="Filter By Nomor Transaksi"
-            aria-label="Search Input"
-            value={filterText}
-            onChange={onFilter}
-        />
-
-        <ClearButton type="button" onClick={onClear}>
-            X
-        </ClearButton>
-    </>
+            <button
+                type="button"
+                onClick={onClear}
+                className="h-8 w-8 text-white text-sm bg-green-500 hover:bg-green-600 rounded-tr-md rounded-br-md"
+            >
+                X
+            </button>
+        </div>
+    </div>
 );
 
 const onEdit = (row) => {
@@ -88,6 +76,10 @@ export default function Pembelian(props) {
 
     const openModal = () => {
         setIsOpen(true);
+    };
+
+    const openPembelianAktif = () => {
+        Inertia.visit(route("transaksi_pembelian"));
     };
 
     // Delete
@@ -181,6 +173,9 @@ export default function Pembelian(props) {
                 onFilter={(e) => setFilterText(e.target.value)}
                 onClear={handleclear}
                 filterText={filterText}
+                openModal={openModal}
+                openPembelianAktif={openPembelianAktif}
+                session={props.pembelianSession}
             />
         );
     });
@@ -197,12 +192,12 @@ export default function Pembelian(props) {
                         </div>
                         <div className="p-6">
                             <div className="flex gap-2">
-                                <button
+                                {/* <button
                                     onClick={openModal}
                                     className="w-52 p-1 mb-5 bg-green-600 hover:bg-orange-600 transition delay-150 rounded-full shadow-md flex items-center justify-center text-white text-xl font-semibold"
                                 >
                                     Transaksi Baru
-                                </button>
+                                </button> */}
                                 {/* <button className="w-52 p-1 mb-5 bg-orange-500 hover:bg-orange-600 transition delay-150 rounded-full shadow-md flex items-center justify-center text-white text-xl font-semibold">
                                     Transaksi Baru
                                 </button> */}
@@ -236,6 +231,7 @@ export default function Pembelian(props) {
                             closeModal={closeModalDelete}
                             dataEdit={dataDelete}
                             routeURL="pembelian.destroy"
+                            penjualan={false}
                         />
                     </div>
                 </div>

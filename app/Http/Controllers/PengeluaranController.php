@@ -17,9 +17,32 @@ class PengeluaranController extends Controller
     public function index()
     {
         $pengeluaran = Pengeluaran::all();
+
+        $data = $this->getData($pengeluaran);
+
         return Inertia::render('Dashboard/Transaction/Pengeluaran', [
-            'pengeluaran' => $pengeluaran
+            'pengeluaran' => $data
         ]);
+    }
+
+    public function getData($pengeluaran)
+    {
+        $data = array();
+
+        foreach ($pengeluaran as $key => $item) {
+            $row = array();
+            $row['no'] = $key + 1;
+            $row['id'] = $item->id;
+            $row['created_at'] = tanggal_indonesia($item->created_at, false);
+            $row['updated_at'] = tanggal_indonesia($item->updated_at, false);
+            $row['nomor_trx_pengeluaran'] = $item->nomor_trx_pengeluaran;
+            $row['deskripsi'] = $item->deskripsi;
+            $row['nominal'] = $item->nominal;
+
+            $data[] = $row;
+        }
+
+        return $data;
     }
 
     /**

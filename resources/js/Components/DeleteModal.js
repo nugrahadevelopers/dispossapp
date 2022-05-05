@@ -9,6 +9,7 @@ export default function DeleteModal({
     dialogTitle,
     dataEdit,
     routeURL,
+    penjualan,
 }) {
     const {
         data,
@@ -101,8 +102,16 @@ export default function DeleteModal({
                                         </label>
                                         <FormInput
                                             type="text"
-                                            name="nomor_trx_pembelian"
-                                            value={data.nomor_trx_penjualan}
+                                            name={
+                                                penjualan
+                                                    ? "nomor_trx_penjualan"
+                                                    : "nomor_trx_pembelian"
+                                            }
+                                            value={
+                                                penjualan
+                                                    ? data.nomor_trx_penjualan
+                                                    : data.nomor_trx_pembelian
+                                            }
                                             isFocused={true}
                                             handleChange={onHandleChange}
                                             readOnly={true}
