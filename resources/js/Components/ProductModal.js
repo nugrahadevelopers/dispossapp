@@ -181,7 +181,6 @@ export default function ProductModal({
                                             /> */}
                                             <input
                                                 type="text"
-                                                pattern="[0-9]*"
                                                 name="nama"
                                                 value={data.nama}
                                                 onChange={onHandleChange}
