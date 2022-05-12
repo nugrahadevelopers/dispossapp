@@ -68,11 +68,11 @@ export default function Dashboard(props) {
         <Authenticated auth={props.auth} errors={props.errors}>
             <Head title="Dashboard" />
 
-            <div className="py-12">
-                <div className="max-w-full mx-auto sm:px-6 lg:px-8">
+            <div className="py-12 container">
+                <div className="max-w-6xl mx-auto sm:px-6 lg:px-8">
                     <div className="flex justify-center gap-6">
                         <div className="bg-green-600 shadow-lg rounded-t-3xl rounded-br-3xl">
-                            <div className="w-72 p-6 text-center text-3xl font-semibold text-white">
+                            <div className="w-60 p-6 text-center text-3xl font-semibold text-white">
                                 Rp. {props.totalPendapatanKotor}
                             </div>
                             <div className="mr-6">
@@ -82,7 +82,7 @@ export default function Dashboard(props) {
                             </div>
                         </div>
                         <div className="bg-green-600 shadow-lg rounded-t-3xl rounded-br-3xl">
-                            <div className="w-72 p-6 text-center text-3xl font-semibold text-white">
+                            <div className="w-60 p-6 text-center text-3xl font-semibold text-white">
                                 Rp. {props.totalPendapatanBersih}
                             </div>
                             <div className="mr-6">
@@ -92,7 +92,7 @@ export default function Dashboard(props) {
                             </div>
                         </div>
                         <div className="bg-green-600 shadow-lg rounded-t-3xl rounded-br-3xl">
-                            <div className="w-72 p-6 text-center text-3xl font-semibold text-white">
+                            <div className="w-60 p-6 text-center text-3xl font-semibold text-white">
                                 {props.jumlahProduct}
                             </div>
                             <div className="mr-6">
@@ -102,7 +102,7 @@ export default function Dashboard(props) {
                             </div>
                         </div>
                         <div className="bg-green-600 shadow-lg rounded-t-3xl rounded-br-3xl">
-                            <div className="w-72 p-6 text-center text-3xl font-semibold text-white">
+                            <div className="w-60 p-6 text-center text-3xl font-semibold text-white">
                                 {props.jumlahSupplier}
                             </div>
                             <div className="mr-6">
